@@ -1,11 +1,13 @@
+import streamlit as st
 from transformers import pipeline
 
+@st.cache(allow_output_mutation=True)
 def load_model():
     table_qa = pipeline('table-question-answering', model='google/tapas-large-finetuned-wtq')
     return table_qa
 
 def process_data(table_qa, table_data):
-    response = table_qa(table=table_data)
+    response = table_qa(table=table_data) 
     return response
 
 table_data = [
@@ -24,5 +26,11 @@ table_data = [
     ['Do you want to hook up?', 'Do you want to have sex?'],
 ]
 
-# Load the model
-table_qa =
+table_qa = load_model() 
+
+st.title('QA Bot')
+query = st.text_input('Ask a question:')
+
+if query:
+    response = process_data(table_qa, [query, table_data])
+    st.write(response['answer'])
