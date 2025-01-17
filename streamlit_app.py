@@ -7,7 +7,19 @@ def load_model():
     return table_qa
 
 def process_data(table_qa, table_data, query):
-    # Ensure the table and query are in the correct format
+    # Ensure the query is a non-empty string
+    if not isinstance(query, str) or not query.strip():
+        raise ValueError("Query must be a non-empty string.")
+    
+    # Ensure the table is in the correct format
+    if not isinstance(table_data, list) or not all(isinstance(row, list) for row in table_data):
+        raise ValueError("Table data must be a list of lists.")
+    
+    # Debugging: Print the query and table data
+    st.write("Query:", query)
+    st.write("Table Data:", table_data)
+    
+    # Process the query and table data
     response = table_qa(table=table_data, query=query)
     return response
 
