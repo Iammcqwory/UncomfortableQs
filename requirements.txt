@@ -1,0 +1,3 @@
+streamlit
+transformers
+torch  # or tensorflow, depending on your backend
